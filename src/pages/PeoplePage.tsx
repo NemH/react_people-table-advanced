@@ -1,7 +1,7 @@
 import { PeopleFilters } from '../components/PeopleFilters';
 import { Loader } from '../components/Loader';
 import { PeopleTable } from '../components/PeopleTable';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { getPeople } from '../api';
 import { Person } from '../types';
 import { useParams, useSearchParams } from 'react-router-dom';
@@ -61,6 +61,8 @@ export const PeoplePage = () => {
     }
   }, [slug, people]);
 
+  const centuriesKey = useMemo(() => centuries?.join(',') || '', [centuries]);
+
   useEffect(() => {
     if (people.length !== 0) {
       let fp = [...people];
@@ -70,11 +72,11 @@ export const PeoplePage = () => {
         fp = fp.filter(person => person.sex === sex);
       }
 
-      if (centuries.length > 0) {
+      if (centuriesKey && centuriesKey.length > 0) {
         fp = fp.filter(person => {
           const cent = Math.floor((person.born - 1) / 100) + 1;
 
-          return centuries.includes(cent.toString());
+          return centuriesKey.includes(cent.toString());
         });
       }
 
@@ -116,7 +118,7 @@ export const PeoplePage = () => {
 
       setFilteredPeople(fp);
     }
-  }, [people, sort, query, order, sex, centuries?.join(',')]);
+  }, [people, sort, query, order, sex, centuriesKey]);
 
   return (
     <>
