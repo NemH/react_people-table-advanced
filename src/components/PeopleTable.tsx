@@ -130,7 +130,7 @@ export const PeopleTable: React.FC<Props> = ({ selected, people }) => {
             >
               <td>
                 <Link
-                  to={`/people/${person.slug}`}
+                  to={`/people/${person.slug}?${searchParams.toString()}`}
                   className={person.sex === 'f' ? 'has-text-danger' : ''}
                 >
                   {person.name}

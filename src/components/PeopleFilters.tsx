@@ -59,9 +59,11 @@ export const PeopleFilters = () => {
   };
 
   function handleQueryChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const toSet = event.target.value.toString().trim();
+
     setSearchParams(
       getSearchWith(searchParams, {
-        query: `${event.target.value}`,
+        query: toSet === '' ? null : toSet,
       }),
     );
   }
@@ -72,6 +74,14 @@ export const PeopleFilters = () => {
         sex: null,
         centuries: null,
         query: null,
+      }),
+    );
+  };
+
+  const handleSetAllCentury = () => {
+    setSearchParams(
+      getSearchWith(searchParams, {
+        centuries: null,
       }),
     );
   };
@@ -132,7 +142,7 @@ export const PeopleFilters = () => {
             <a
               data-cy="centuryALL"
               className={`button is-success ${centuries.length > 0 && 'is-outlined'}`}
-              href="#/people"
+              onClick={() => handleSetAllCentury()}
             >
               All
             </a>
