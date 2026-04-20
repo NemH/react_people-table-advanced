@@ -23,14 +23,18 @@ const SortIcon: React.FC<SortIconType> = ({ icon, order, sort }) => {
 };
 
 type PersonLinkType = { person: Person };
-const PersonLink: React.FC<PersonLinkType> = ({ person }) => (
-  <Link
-    to={`/people/${person.slug}`}
-    className={person.sex === 'f' ? 'has-text-danger' : ''}
-  >
-    {person.name}
-  </Link>
-);
+const PersonLink: React.FC<PersonLinkType> = ({ person }) => {
+  const [searchParams] = useSearchParams();
+
+  return (
+    <Link
+      to={`/people/${person.slug}?${searchParams.toString()}`}
+      className={person.sex === 'f' ? 'has-text-danger' : ''}
+    >
+      {person.name}
+    </Link>
+  );
+};
 
 type Props = {
   selected: string;
